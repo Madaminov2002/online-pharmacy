@@ -1,4 +1,4 @@
 package org.example.onlinepharmy;
 
-public class Test {
+public class Test2 {
 }
