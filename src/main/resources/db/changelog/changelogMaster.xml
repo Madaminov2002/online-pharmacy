@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+<!--    <include file="db/changelog/changeSet/100001_create_users_table.xml"/>-->
+<!--    <include file="/db/changelog/changeSet/100002_create_roles_table.xml"/>-->
+<!--    <include file="/db/changelog/changeSet/100003_create_users_roles_table.xml"/>-->
+<!--    <include file="/db/changelog/changeSet/100008_create_verification_table.xml"/>-->
+<!--    <include file="/db/changelog/changeSet/100004_create_district_table.xml"/>-->
+<!--    <include file="/db/changelog/changeSet/100006_create_medicine_table.xml"/>-->
+<!--    <include file="/db/changelog/changeSet/100005_create_pharmacy_table.xml"/>-->
+<!--    <include file="/db/changelog/changeSet/1000010_create_card_table.xml"/>-->
+    <includeAll path="db/changelog/changeSet"/>
+</databaseChangeLog>
