@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet id="100008" author="Suhrob Madaminov">
+        <sql dbms="postgresql" >
+            CREATE TABLE verification (
+                                          id BIGSERIAL PRIMARY KEY,
+                                          user_id BIGINT REFERENCES users (id),
+                                          password VARCHAR(255),
+                                          expiry_time TIME
+            )
+
+        </sql>
+    </changeSet>
+</databaseChangeLog>
