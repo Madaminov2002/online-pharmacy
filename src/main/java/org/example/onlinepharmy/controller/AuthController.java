@@ -2,8 +2,10 @@ package org.example.onlinepharmy.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.example.onlinepharmy.domain.User;
 import org.example.onlinepharmy.dto.LoginDto;
 import org.example.onlinepharmy.dto.SignupDto;
+import org.example.onlinepharmy.dto.UserUpdateDto;
 import org.example.onlinepharmy.jwt.JwtResponse;
 import org.example.onlinepharmy.service.AuthService;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody LoginDto loginDto) {
         return ResponseEntity.ok(authService.login(loginDto));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<User> updateUser(@RequestBody UserUpdateDto updateDto) {
+        return ResponseEntity.ok(authService.updateUser(updateDto));
     }
 
 

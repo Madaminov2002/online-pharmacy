@@ -15,10 +15,12 @@ public class JwtResponse {
     private String accessToken;
     private LocalDateTime dateTime = LocalDateTime.now();
     private Long userId;
+    private String location;
 
-    public JwtResponse(Long userId, String accessToken) {
+    public JwtResponse(Long userId, String accessToken, String location) {
         this.userId = userId;
         this.accessToken = accessToken;
+        this.location = location;
     }
 
 
