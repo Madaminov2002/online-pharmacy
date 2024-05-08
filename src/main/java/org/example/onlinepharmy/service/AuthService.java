@@ -1,6 +1,10 @@
 package org.example.onlinepharmy.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.onlinepharmy.advice.exception.EmailAlreadyExistsException;
+import org.example.onlinepharmy.advice.exception.EmailNotFoundException;
+import org.example.onlinepharmy.advice.exception.PasswordIncorrectException;
+import org.example.onlinepharmy.advice.exception.UserNotFoundException;
 import org.example.onlinepharmy.domain.User;
 import org.example.onlinepharmy.dto.LoginDto;
 import org.example.onlinepharmy.dto.SignupDto;
@@ -8,6 +12,7 @@ import org.example.onlinepharmy.dto.UserUpdateDto;
 import org.example.onlinepharmy.jwt.JwtProvider;
 import org.example.onlinepharmy.jwt.JwtResponse;
 import org.example.onlinepharmy.repo.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -17,21 +22,20 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
+    private final PasswordEncoder passwordEncoder;
 
     public User getUserEntity(SignupDto signupDto){
         return User.builder()
                 .username(signupDto.getUsername())
                 .email(signupDto.getEmail())
-                .password(signupDto.getPassword())
+                .password(passwordEncoder.encode(signupDto.getPassword()))
+                .roles(signupDto.getRoles())
                 .build();
     }
 
     public JwtResponse signUp(SignupDto signupDto){
-        if (userRepository.existsByUsername(signupDto.getUsername())){
-            throw new RuntimeException("Username is already exists!");
-        }
         if (userRepository.existsByEmail(signupDto.getEmail())){
-            throw new RuntimeException("Email is already exists!");
+            throw new EmailAlreadyExistsException(signupDto.getEmail());
         }
 
         User user = getUserEntity(signupDto);
@@ -49,11 +53,11 @@ public class AuthService {
         User user = userRepository.findByEmail(loginDto.getEmail());
 
         if (!userRepository.existsByEmail(loginDto.getEmail())){
-            throw new RuntimeException("This email not found " + loginDto.getEmail());
+            throw new EmailNotFoundException(loginDto.getEmail());
         }
 
-        if (!user.getPassword().equals(loginDto.getPassword())) {
-            throw new RuntimeException("Wrong password try again");
+        if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+            throw new PasswordIncorrectException(loginDto.getPassword());
         }
 
         String token = jwtProvider.generate(user);
@@ -67,7 +71,7 @@ public class AuthService {
 
 
         if (user == null){
-            throw new RuntimeException("User not found");
+            throw new UserNotFoundException(String.valueOf(updateDto.getId()));
         }
 
         if (updateDto.getUsername() != null) {

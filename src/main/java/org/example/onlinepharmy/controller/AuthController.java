@@ -9,6 +9,7 @@ import org.example.onlinepharmy.dto.UserUpdateDto;
 import org.example.onlinepharmy.jwt.JwtResponse;
 import org.example.onlinepharmy.service.AuthService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,6 +30,7 @@ public class AuthController {
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> updateUser(@RequestBody UserUpdateDto updateDto) {
         return ResponseEntity.ok(authService.updateUser(updateDto));
     }
