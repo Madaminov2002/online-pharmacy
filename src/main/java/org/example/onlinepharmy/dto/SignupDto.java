@@ -1,9 +1,12 @@
 package org.example.onlinepharmy.dto;
 
-import lombok.*;
-import org.example.onlinepharmy.domain.Role;
-
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.example.onlinepharmy.domain.Role;
 
 @Getter
 @Setter
