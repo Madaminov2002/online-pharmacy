@@ -1,7 +1,6 @@
 package org.example.onlinepharmy.dto;
 
-import java.net.URI;
-import java.net.URL;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

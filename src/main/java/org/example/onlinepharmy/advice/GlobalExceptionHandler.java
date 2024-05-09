@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PasswordIncorrectException.class)
     public ResponseEntity<ErrorResponseDto> incorrectPassword(PasswordIncorrectException exception) {
-        return ResponseEntity.ok().body(
+        return ResponseEntity.ok(
                 ErrorResponseDto.builder()
                         .message(exception.getMessage())
                         .status(HttpStatus.BAD_REQUEST)
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponseDto> emailAlreadyExists(EmailAlreadyExistsException exception, HttpServletResponse response) {
+    public ResponseEntity<ErrorResponseDto> emailAlreadyExists(EmailAlreadyExistsException exception) {
         return ResponseEntity.ok(
                 ErrorResponseDto.builder()
                         .message(exception.getMessage())
