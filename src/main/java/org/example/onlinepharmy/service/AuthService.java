@@ -1,10 +1,12 @@
 package org.example.onlinepharmy.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.onlinepharmy.advice.exception.EmailAlreadyExistsException;
 import org.example.onlinepharmy.advice.exception.EmailNotFoundException;
 import org.example.onlinepharmy.advice.exception.PasswordIncorrectException;
 import org.example.onlinepharmy.advice.exception.UserNotFoundException;
+import org.example.onlinepharmy.domain.Role;
 import org.example.onlinepharmy.domain.User;
 import org.example.onlinepharmy.dto.LoginDto;
 import org.example.onlinepharmy.dto.SignupDto;
@@ -24,17 +26,17 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
 
-    public User getUserEntity(SignupDto signupDto){
+    public User getUserEntity(SignupDto signupDto) {
         return User.builder()
                 .username(signupDto.getUsername())
                 .email(signupDto.getEmail())
                 .password(passwordEncoder.encode(signupDto.getPassword()))
-                .roles(signupDto.getRoles())
+                .roles(List.of(Role.builder().id(3L).name("USER").build()))
                 .build();
     }
 
-    public JwtResponse signUp(SignupDto signupDto){
-        if (userRepository.existsByEmail(signupDto.getEmail())){
+    public JwtResponse signUp(SignupDto signupDto) {
+        if (userRepository.existsByEmail(signupDto.getEmail())) {
             throw new EmailAlreadyExistsException(signupDto.getEmail());
         }
 
@@ -52,7 +54,7 @@ public class AuthService {
 
         User user = userRepository.findByEmail(loginDto.getEmail());
 
-        if (!userRepository.existsByEmail(loginDto.getEmail())){
+        if (!userRepository.existsByEmail(loginDto.getEmail())) {
             throw new EmailNotFoundException(loginDto.getEmail());
         }
 
@@ -65,12 +67,12 @@ public class AuthService {
 
     }
 
-    public User updateUser(UserUpdateDto updateDto){
+    public User updateUser(UserUpdateDto updateDto) {
 
         User user = userRepository.findById(updateDto.getId()).orElse(null);
 
 
-        if (user == null){
+        if (user == null) {
             throw new UserNotFoundException(String.valueOf(updateDto.getId()));
         }
 
