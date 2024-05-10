@@ -1,11 +1,14 @@
+app:
+  version: 0.0.2
+
 spring:
   application:
     name: Online-Pharmy
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/online_pharmacy
+    url: jdbc:postgresql://localhost:5432/db_test
     username: postgres
-    password: Suhrob1332
+    password: 1234 #Suhrob1332
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
@@ -15,6 +18,11 @@ spring:
     change-log: classpath:db/changelog/changelogMaster.xml
     enabled: true
 server:
-  port: 8081
+  port: 8080
 secret:
   key: ApeVFjUOyTmk7XYwgcYwIEsix1mALAsQhftYQqWHE8P6kcnqbZv0Uxj9HduKEvjXzz0sVYCG0ZjSBtmxadtAiQ==
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger
