@@ -12,7 +12,11 @@
                 password          VARCHAR(255) NOT NULL,
                 email             VARCHAR(255) NOT NULL,
                 enabled           BOOLEAN   DEFAULT TRUE,
-                registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                last_modified_time TIMESTAMP,
+                created_time TIMESTAMP,
+                created_by VARCHAR,
+                last_modified_by VARCHAR
             )
         </sql>
     </changeSet>
