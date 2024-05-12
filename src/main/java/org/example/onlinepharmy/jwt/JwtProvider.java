@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.util.Date;
+import java.util.Random;
 import java.util.StringJoiner;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class JwtProvider {
 
     @SneakyThrows
     public String generate(User user) {
+        Integer password = new Random().nextInt(100000, 1000000);
         StringJoiner roles = new StringJoiner(",");
         user.getRoles().forEach(role -> roles.add(role.getName()));
         return Jwts.builder()
@@ -28,6 +30,7 @@ public class JwtProvider {
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 600000 * 1000))
                 .claim("roles", roles.toString())
+                .claim("password", password.toString())
                 .signWith(key())
                 .compact();
     }

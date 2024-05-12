@@ -8,7 +8,7 @@
             CREATE TABLE sales_history (
                                            id BIGSERIAL PRIMARY KEY,
                                            time TIMESTAMP,
-                                           check_password VARCHAR(255),
+                                           check_password VARCHAR(255) unique ,
                                            medicine_id BIGINT REFERENCES medicine (id),
                                            user_id BIGINT REFERENCES users (id)
             );
