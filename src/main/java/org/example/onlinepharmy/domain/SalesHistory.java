@@ -1,5 +1,6 @@
 package org.example.onlinepharmy.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class SalesHistory {
 
     @Builder.Default
     private LocalDateTime time = LocalDateTime.now();
-
+    @Column(unique = true)
     private String checkPassword;
 
     @ManyToOne
@@ -35,5 +36,8 @@ public class SalesHistory {
 
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    private Pharmacy pharmacy;
 
 }

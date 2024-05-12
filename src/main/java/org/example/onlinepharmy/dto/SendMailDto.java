@@ -1,18 +1,18 @@
 package org.example.onlinepharmy.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class UserUpdateDto {
-    private Long id;
-    private String username;
-    private String password;
-    private String email;
+@Builder
+public class SendMailDto {
+    private String to;
+    private String subject;
+    private String content;
 }

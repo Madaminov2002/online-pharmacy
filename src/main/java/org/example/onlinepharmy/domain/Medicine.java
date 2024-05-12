@@ -27,10 +27,8 @@ public class Medicine {
     private Long id;
     @Column(nullable = false)
     private String name;
-    @Builder.Default
-    private LocalDateTime dateOfManufacture = LocalDateTime.now();
-    @Builder.Default
-    private LocalDateTime dateOfExpiry = LocalDateTime.now();
+    private LocalDateTime dateOfManufacture ;
+    private LocalDateTime dateOfExpiry ;
     private String farm;
 
 }
