@@ -48,13 +48,13 @@ public class AuthController {
 
     @PutMapping("/update")
     @PreAuthorize("hasRole('SUPER ADMIN')")
-    @Operation(summary = "Update user", description = "Uses for update users and only for SUPER ADMIN's")
+    @Operation(summary = "Update user", description = "Uses for update users and only for SUPER ADMIN")
     public ResponseEntity<User> updateUser(@RequestBody UserUpdateDto updateDto) {
         return ResponseEntity.ok(authService.updateUser(updateDto));
     }
 
     @GetMapping("/checkingUser/user-id/{id}")
-    @Operation(summary = "Checking user", description = "Uses for checking user")
+    @Operation(summary = "Checking user", description = "Uses for checking verification user")
     public ResponseEntity<User> checkingUser(@RequestParam("password") String password, @PathVariable("id") Long userId) {
         return ResponseEntity.ok(authService.checking(password, userId));
     }

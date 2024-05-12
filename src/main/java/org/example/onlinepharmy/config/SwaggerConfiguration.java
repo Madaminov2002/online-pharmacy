@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
                         url = "https://starter.spring.io"
                 ),
                 termsOfService = "https://wwww.wiki.com",
-                summary = "The project is fully supported by G33 students"
+                summary = "The project is fully supported by Team online pharmacy"
         ),
         servers = {
                 @Server(url = "http://localhost:8081/swagger",

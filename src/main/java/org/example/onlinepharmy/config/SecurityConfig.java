@@ -34,13 +34,8 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/swagger-resources/**",
-            "/auth/**",
-            "/availableMedicine/**",
-            "/card/**",
-            "/district/**",
-            "/medicine/**",
-            "/pharmacy/**",
-            "/salesHistory/**"
+            "/auth/login",
+            "/auth/signup"
     };
 
 

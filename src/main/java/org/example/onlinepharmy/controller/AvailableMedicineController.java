@@ -30,13 +30,13 @@ public class AvailableMedicineController {
 
     @PostMapping("/save")
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Save available medicines", description = "for save available medicines")
+    @Operation(summary = "Save available medicines", description = "for saving available medicines")
     public ResponseEntity<AvailableMedicines> save(@RequestBody AvailableMedicineDto availableMedicineDto) {
         return ResponseEntity.ok(availableMedicineService.save(availableMedicineDto));
     }
 
     @GetMapping("/showAll/districtName/{name}")
-    @Operation(summary = "Show All available medicines", description = "for showing all available medicines")
+    @Operation(summary = "Show All available medicines", description = "for showing all available medicines by district name")
     public ResponseEntity<List<AvailableMedicines>> showAll(@PathVariable("name") String districtName) {
         return ResponseEntity.ok(availableMedicineService.findAllAvailableMedicinesByDistrictName(districtName));
     }
