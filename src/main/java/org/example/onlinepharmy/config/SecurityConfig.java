@@ -26,14 +26,30 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+
     private final JwtFilter jwtFilter;
+
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/auth/**",
+            "/availableMedicine/**",
+            "/card/**",
+            "/district/**",
+            "/medicine/**",
+            "/pharmacy/**",
+            "/salesHistory/**"
+    };
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
         security
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(register ->
-                        register.requestMatchers("/auth/login", "/auth/signup").permitAll()
+                        register.requestMatchers(AUTH_WHITELIST).permitAll()
                                 .anyRequest().authenticated()
                 ).sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
