@@ -1,5 +1,7 @@
 package org.example.onlinepharmy.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.onlinepharmy.domain.District;
 import org.example.onlinepharmy.dto.DistrictDto;
@@ -14,11 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/district")
-public class DistrictController {
+@Tag(
+        name = "District API",
+        description = "Designed to manage the APIs of the districts"
+)public class DistrictController {
     private final DistrictService districtService;
 
     @PostMapping("/save")
     @PreAuthorize("hasRole('SUPER ADMIN')")
+    @Operation(summary = "Save districts", description = "Designed to saving districts only for SUPER ADMINS")
     public ResponseEntity<District> save(@RequestBody DistrictDto districtDto) {
         return ResponseEntity.ok(districtService.save(districtDto));
     }
