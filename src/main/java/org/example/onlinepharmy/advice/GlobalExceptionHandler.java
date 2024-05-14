@@ -8,6 +8,7 @@ import org.example.onlinepharmy.advice.exception.EmailAlreadyExistsException;
 import org.example.onlinepharmy.advice.exception.EmailNotFoundException;
 import org.example.onlinepharmy.advice.exception.IsNotEnoughMoneyException;
 import org.example.onlinepharmy.advice.exception.MedicineNotFoundException;
+import org.example.onlinepharmy.advice.exception.MedicineNotFoundFromAvailableException;
 import org.example.onlinepharmy.advice.exception.PasswordIncorrectException;
 import org.example.onlinepharmy.advice.exception.PharmacyIsNotYoursException;
 import org.example.onlinepharmy.advice.exception.UserNotFoundException;
@@ -98,6 +99,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MedicineNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> medicineNotFound(MedicineNotFoundException exception) {
+        return ResponseEntity.ok(
+                ErrorResponseDto.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.BAD_REQUEST)
+                        .code(HttpServletResponse.SC_BAD_REQUEST)
+                        .build()
+        );
+    }
+
+    @ExceptionHandler(MedicineNotFoundFromAvailableException.class)
+    public ResponseEntity<ErrorResponseDto> medicineNotFoundFromAvailable(MedicineNotFoundFromAvailableException exception) {
         return ResponseEntity.ok(
                 ErrorResponseDto.builder()
                         .message(exception.getMessage())
