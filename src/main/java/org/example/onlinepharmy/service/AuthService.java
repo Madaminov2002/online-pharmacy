@@ -4,23 +4,29 @@ import io.jsonwebtoken.Claims;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.example.onlinepharmy.Projection.UserDtoProjection;
 import org.example.onlinepharmy.advice.exception.EmailAlreadyExistsException;
 import org.example.onlinepharmy.advice.exception.EmailNotFoundException;
 import org.example.onlinepharmy.advice.exception.PasswordIncorrectException;
+import org.example.onlinepharmy.advice.exception.UserNotEnableForChangingPasswordException;
 import org.example.onlinepharmy.advice.exception.UserNotFoundException;
+import org.example.onlinepharmy.domain.ForgotPassword;
 import org.example.onlinepharmy.domain.Role;
 import org.example.onlinepharmy.domain.User;
 import org.example.onlinepharmy.domain.Verification;
+import org.example.onlinepharmy.dto.ChangePasswordDto;
 import org.example.onlinepharmy.dto.LoginDto;
 import org.example.onlinepharmy.dto.SendMailDto;
 import org.example.onlinepharmy.dto.SignupDto;
-import org.example.onlinepharmy.updateDto.UserUpdateDto;
 import org.example.onlinepharmy.jwt.JwtProvider;
 import org.example.onlinepharmy.jwt.JwtResponse;
+import org.example.onlinepharmy.repo.ForgotPasswordRepository;
 import org.example.onlinepharmy.repo.UserRepository;
 import org.example.onlinepharmy.repo.VerificationRepository;
+import org.example.onlinepharmy.updateDto.UserUpdateDto;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -37,6 +43,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final VerificationRepository verificationRepository;
     private final JavaMailSender mailSender;
+    private final ForgotPasswordRepository forgotPasswordRepository;
 
     public User getUserEntity(SignupDto signupDto) {
         return User.builder()
@@ -129,10 +136,11 @@ public class AuthService {
 
     /**
      * This method only for mailtrap!
+     *
      * @param password
      */
     @Async
-    public void sendMail(String password)  {
+    public void sendMail(String password) {
         SendMailDto dto = SendMailDto.builder()
                 .to("admin@example.com")
                 .content(password)
@@ -146,5 +154,28 @@ public class AuthService {
         mailSender.send(mailMessage);
     }
 
+    public ForgotPassword generatePasswordAndSaveToForgotPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException(email);
+        }
+        int password = new Random().nextInt(100000, 1000000);
+        sendMail(String.valueOf(password));
+        return forgotPasswordRepository.save(
+                ForgotPassword.builder()
+                        .email(email)
+                        .password(String.valueOf(password))
+                        .build()
+        );
+    }
+
+    public UserDtoProjection checkUserEnabledFromForgotPassword(ChangePasswordDto dto) {
+        Boolean enabled = forgotPasswordRepository.checkByEmailEnabled(dto.getEmail());
+        if (enabled == null) {
+            throw new UserNotEnableForChangingPasswordException(dto.getEmail());
+        }
+        userRepository.changePassword(passwordEncoder.encode(dto.getNewPassword()), dto.getEmail());
+        return userRepository.getChangedPasswordUser(dto.getEmail());
+    }
 
 }
