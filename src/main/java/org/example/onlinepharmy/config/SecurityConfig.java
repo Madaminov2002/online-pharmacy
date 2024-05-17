@@ -35,7 +35,10 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/swagger-resources/**",
             "/auth/login",
-            "/auth/signup"
+            "/auth/signup",
+            "/auth/emailForForgotPassword",
+            "/auth/checkForgotPassword",
+            "/auth/changing-password"
     };
 
 

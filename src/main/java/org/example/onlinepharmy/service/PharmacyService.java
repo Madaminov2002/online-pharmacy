@@ -24,7 +24,7 @@ public class PharmacyService {
         Optional<District> district = districtRepository.findById(pharmacyDto.getDistrictId());
         Optional<User> adminById = userRepository.findAdminById(pharmacyDto.getAdminId());
         if (district.isEmpty()) {
-            throw new DistrictNotFoundException(pharmacyDto.getDistrictId());
+            throw new DistrictNotFoundException(String.valueOf(pharmacyDto.getDistrictId()));
         }
         if (adminById.isEmpty()) {
             throw new AdminNotFoundException(pharmacyDto.getAdminId());

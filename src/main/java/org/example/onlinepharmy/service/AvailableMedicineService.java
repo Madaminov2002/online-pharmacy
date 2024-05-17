@@ -5,14 +5,19 @@ import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.example.onlinepharmy.advice.exception.AvailableMedicineNotFoundException;
+import org.example.onlinepharmy.advice.exception.DistrictNotFoundException;
 import org.example.onlinepharmy.advice.exception.MedicineNotFoundException;
+import org.example.onlinepharmy.advice.exception.MedicineNotFoundFromAvailableException;
 import org.example.onlinepharmy.advice.exception.PharmacyIsNotYoursException;
 import org.example.onlinepharmy.domain.AvailableMedicines;
+import org.example.onlinepharmy.domain.District;
 import org.example.onlinepharmy.domain.Medicine;
 import org.example.onlinepharmy.domain.Pharmacy;
 import org.example.onlinepharmy.domain.User;
 import org.example.onlinepharmy.dto.AvailableMedicineDto;
+import org.example.onlinepharmy.dto.SearchingDto;
 import org.example.onlinepharmy.repo.AvailableMedicinesRepository;
+import org.example.onlinepharmy.repo.DistrictRepository;
 import org.example.onlinepharmy.repo.MedicineRepository;
 import org.example.onlinepharmy.repo.PharmacyRepository;
 import org.example.onlinepharmy.repo.UserRepository;
@@ -27,6 +32,7 @@ public class AvailableMedicineService {
     private final PharmacyRepository pharmacyRepository;
     private final AvailableMedicinesRepository availableMedicinesRepository;
     private final UserRepository userRepository;
+    private final DistrictRepository districtRepository;
 
     public AvailableMedicines dtoToEntity(final AvailableMedicineDto dto) {
         Optional<Medicine> medicine = medicineRepository.findById(dto.getMedicineId());
@@ -81,8 +87,31 @@ public class AvailableMedicineService {
             availableMedicines.setPrice(updateDto.getPrice());
         }
         return availableMedicinesRepository.save(availableMedicines);
-
-
     }
+
+    public AvailableMedicines getAvailableMedicineForSearching(final SearchingDto searchingDto) {
+        Optional<District> district = districtRepository.findDistrictByName(searchingDto.getLocationName());
+        Optional<Medicine> medicine = medicineRepository.findMedicineByName(searchingDto.getMedicineName());
+        if (district.isEmpty()) {
+            throw new DistrictNotFoundException(searchingDto.getLocationName());
+        }
+        if (medicine.isEmpty()) {
+            throw new MedicineNotFoundException(0L);
+        }
+        var availableMedicinesForSearching = availableMedicinesRepository.getAvailableMedicinesForSearching(
+                district.get().getName(),
+                medicine.get().getId()
+        );
+        if (availableMedicinesForSearching.isPresent()) {
+            return availableMedicinesForSearching.get();
+        }
+        var availableMedicinesByMedicineId = availableMedicinesRepository.getAvailableMedicinesByMedicineId(medicine.get().getId());
+
+        if (availableMedicinesByMedicineId.isPresent()) {
+            return availableMedicinesByMedicineId.get();
+        }
+        throw new MedicineNotFoundFromAvailableException(medicine.get().getId());
+    }
+
 
 }

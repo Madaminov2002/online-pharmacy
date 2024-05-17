@@ -4,13 +4,19 @@ package org.example.onlinepharmy.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import org.example.onlinepharmy.Projection.ForgotPasswordProjection;
+import org.example.onlinepharmy.Projection.UserDtoProjection;
+import org.example.onlinepharmy.advice.exception.PasswordIncorrectException;
+import org.example.onlinepharmy.domain.ForgotPassword;
 import org.example.onlinepharmy.domain.User;
+import org.example.onlinepharmy.dto.ChangePasswordDto;
+import org.example.onlinepharmy.dto.ForgotPasswordDto;
 import org.example.onlinepharmy.dto.LoginDto;
 import org.example.onlinepharmy.dto.SignupDto;
-import org.example.onlinepharmy.updateDto.UserUpdateDto;
 import org.example.onlinepharmy.jwt.JwtResponse;
+import org.example.onlinepharmy.repo.ForgotPasswordRepository;
 import org.example.onlinepharmy.service.AuthService;
+import org.example.onlinepharmy.updateDto.UserUpdateDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +38,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final ForgotPasswordRepository forgotPasswordRepository;
 
-    @SneakyThrows
     @PostMapping("/signup")
     @Operation(summary = "User signup", description = "Uses in registration and token generation")
     public ResponseEntity<JwtResponse> signup(@RequestBody SignupDto signupDto) {
@@ -57,6 +63,30 @@ public class AuthController {
     @Operation(summary = "Checking user", description = "Uses for checking verification user")
     public ResponseEntity<User> checkingUser(@RequestParam("password") String password, @PathVariable("id") Long userId) {
         return ResponseEntity.ok(authService.checking(password, userId));
+    }
+
+    @GetMapping("/emailForForgotPassword")
+    public ResponseEntity<ForgotPassword> emailForForgotPassword(@RequestParam("email") String email) {
+        return ResponseEntity.ok(authService.generatePasswordAndSaveToForgotPassword(email));
+    }
+
+    @PostMapping("/checkForgotPassword")
+    private ResponseEntity<ForgotPasswordProjection> checkForgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto) {
+        return ResponseEntity.ok(checkForgotPassword(forgotPasswordDto.getPassword(), forgotPasswordDto.getEmail()));
+    }
+
+    @PostMapping("/changing-password")
+    public ResponseEntity<UserDtoProjection> changePassword(@RequestBody ChangePasswordDto changePasswordDto) {
+        return ResponseEntity.ok(authService.checkUserEnabledFromForgotPassword(changePasswordDto));
+    }
+
+    public ForgotPasswordProjection checkForgotPassword(String password, String email) {
+        var forgotPasswordByEmailAndPassword = forgotPasswordRepository.findForgotPasswordByEmailAndPassword(email, password);
+        if (forgotPasswordByEmailAndPassword == null) {
+            throw new PasswordIncorrectException(password);
+        }
+        forgotPasswordRepository.updateEnabledToTrue(email);
+        return forgotPasswordByEmailAndPassword;
     }
 
 }
