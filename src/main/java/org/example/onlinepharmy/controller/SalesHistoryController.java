@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,9 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class SalesHistoryController {
     private final SalesHistoryService salesHistoryService;
 
+    /**
+     * @param medicineId
+     * @param pharmacyId
+     * @param count      example:/save/medicineID/{mId}?count=2/pharmacyID/{pId}
+     */
     @PostMapping("/save/medicineID/{mId}/pharmacyID/{pId}")
     @Operation(summary = "Save History", description = "Designed to saving sales history")
-    public ResponseEntity<SalesHistory> save(@PathVariable("mId") Long medicineId, @PathVariable("pId") Long pharmacyId) {
-        return ResponseEntity.ok(salesHistoryService.save(medicineId, pharmacyId));
+    public ResponseEntity<SalesHistory> save(
+            @PathVariable("mId") Long medicineId, @PathVariable("pId") Long pharmacyId,
+            @RequestParam("count") Integer count
+    ) {
+        return ResponseEntity.ok(salesHistoryService.save(medicineId, pharmacyId, count));
     }
 }

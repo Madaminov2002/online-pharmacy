@@ -28,10 +28,10 @@ public class SalesHistoryService {
     private final AvailableMedicinesRepository availableMedicinesRepository;
     private final PharmacyRepository pharmacyRepository;
 
-    public SalesHistory save(Long medicineId, Long pharmacyId) {
+    public SalesHistory save(Long medicineId, Long pharmacyId, Integer count) {
         Integer password = new Random().nextInt(100000, 1000000);
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Medicine medicine = checkBalance(medicineId, pharmacyId);
+        Medicine medicine = checkBalance(medicineId, pharmacyId, count);
         User user = userRepository.findByEmail(email);
         return salesHistoryRepository.save(
                 SalesHistory.builder()
@@ -43,7 +43,7 @@ public class SalesHistoryService {
         );
     }
 
-    private Medicine checkBalance(Long medicineId, Long pharmacyId) {
+    private Medicine checkBalance(Long medicineId, Long pharmacyId, Integer count) {
         Optional<Medicine> medicine = medicineRepository.findById(medicineId);
         if (medicine.isEmpty()) {
             throw new MedicineNotFoundException(medicineId);
@@ -53,7 +53,7 @@ public class SalesHistoryService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Card cardByUserId = cardRepository.findCardByUserId(userRepository.findByEmail(email).getId());
 
-        if (cardByUserId.getSum() > price) {
+        if (cardByUserId.getSum() > price * count) {
             updateCardSumAndCountMedicine(userRepository.findByEmail(email).getId(), price, medicineId, pharmacyId);
             return medicine.get();
         }
