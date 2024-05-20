@@ -10,9 +10,7 @@ import org.example.onlinePharmacy.dto.LoginDto;
 import org.example.onlinePharmacy.dto.SignupDto;
 import org.example.onlinePharmacy.jwt.JwtProvider;
 import org.example.onlinePharmacy.jwt.JwtResponse;
-import org.example.onlinePharmacy.repo.ForgotPasswordRepository;
 import org.example.onlinePharmacy.repo.UserRepository;
-import org.example.onlinePharmacy.repo.VerificationRepository;
 import org.example.onlinePharmacy.updateDto.UserUpdateDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -23,7 +21,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 class AuthServiceTest {
@@ -36,15 +33,6 @@ class AuthServiceTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
-
-    @Mock
-    private VerificationRepository verificationRepository;
-
-    @Mock
-    private JavaMailSender mailSender;
-
-    @Mock
-    private ForgotPasswordRepository forgotPasswordRepository;
 
     @InjectMocks
     private AuthService authService;
