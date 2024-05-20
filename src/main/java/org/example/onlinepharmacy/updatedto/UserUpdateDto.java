@@ -1,4 +1,4 @@
-package org.example.onlinepharmacy.updatedto;
+package org.example.onlinePharmacy.updateDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
