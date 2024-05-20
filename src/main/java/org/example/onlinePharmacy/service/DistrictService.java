@@ -1,5 +1,6 @@
 package org.example.onlinePharmacy.service;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.example.onlinePharmacy.domain.District;
 import org.example.onlinePharmacy.dto.DistrictDto;
@@ -19,5 +20,9 @@ public class DistrictService {
 
     public District save(DistrictDto districtDto) {
         return districtRepository.save(dtoToEntity(districtDto));
+    }
+
+    public Optional<District> findDistrictByName(String districtName) {
+        return districtRepository.findDistrictByName(districtName);
     }
 }
