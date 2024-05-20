@@ -1,4 +1,4 @@
-package org.example.onlinePharmacy.updateDto;
+package org.example.onlinepharmacy.updatedto;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
