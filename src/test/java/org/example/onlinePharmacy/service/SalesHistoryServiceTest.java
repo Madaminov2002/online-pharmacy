@@ -78,9 +78,9 @@ class SalesHistoryServiceTest {
         card.setSum(1000.0);
 
         when(authentication.getName()).thenReturn(email);
-        when(userRepository.findByEmail(email)).thenReturn(user);
-        when(medicineRepository.findById(medicineId)).thenReturn(Optional.of(medicine));
-        when(pharmacyRepository.findById(pharmacyId)).thenReturn(Optional.of(pharmacy));
+        when(userRepository.findByEmail(email)).thenReturn(new User());
+        when(medicineRepository.findById(medicineId)).thenReturn(Optional.of(new Medicine()));
+        when(pharmacyRepository.findById(pharmacyId)).thenReturn(Optional.of(new Pharmacy()));
         when(cardRepository.findCardByUserId(user.getId())).thenReturn(card);
 
         SalesHistory salesHistory = SalesHistory.builder()
