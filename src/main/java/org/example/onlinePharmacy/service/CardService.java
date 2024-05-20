@@ -34,4 +34,8 @@ public class CardService {
         Long userId = userRepository.findByEmail(email).getId();
         return cardRepository.findCardByUserId(userId);
     }
+
+    public void updateCardSumByUserId(Long userId, Double price) {
+        cardRepository.updateCardSumByUserId(userId, price);
+    }
 }
