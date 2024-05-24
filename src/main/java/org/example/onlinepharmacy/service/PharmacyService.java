@@ -2,8 +2,8 @@ package org.example.onlinepharmacy.service;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.example.onlinepharmacy.advice.exception.AdminNotFoundException;
-import org.example.onlinepharmacy.advice.exception.DistrictNotFoundException;
+import org.example.onlinepharmacy.exception.AdminNotFoundException;
+import org.example.onlinepharmacy.exception.DistrictNotFoundException;
 import org.example.onlinepharmacy.domain.District;
 import org.example.onlinepharmacy.domain.Pharmacy;
 import org.example.onlinepharmacy.domain.User;

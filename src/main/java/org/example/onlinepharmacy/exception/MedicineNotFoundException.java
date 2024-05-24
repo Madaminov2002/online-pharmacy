@@ -1,4 +1,4 @@
-package org.example.onlinepharmacy.advice.exception;
+package org.example.onlinepharmacy.exception;
 
 public class MedicineNotFoundException extends RuntimeException {
     public MedicineNotFoundException(Long id) {

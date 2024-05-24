@@ -2,7 +2,7 @@ package org.example.onlinepharmacy.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.example.onlinepharmacy.advice.exception.MedicineNotFoundException;
+import org.example.onlinepharmacy.exception.MedicineNotFoundException;
 import org.example.onlinepharmacy.domain.Medicine;
 import org.example.onlinepharmacy.dto.MedicineDto;
 import org.example.onlinepharmacy.updatedto.MedicineUpdateDto;

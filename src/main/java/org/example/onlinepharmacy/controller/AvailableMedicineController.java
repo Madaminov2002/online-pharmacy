@@ -35,7 +35,7 @@ public class AvailableMedicineController {
         return ResponseEntity.ok(availableMedicineService.save(availableMedicineDto));
     }
 
-    @GetMapping("/showAll/districtName/{name}")
+    @GetMapping("/show_all/district_name/{name}")
     @Operation(summary = "Show All available medicines", description = "for showing all available medicines by district name")
     public ResponseEntity<List<AvailableMedicines>> showAll(@PathVariable("name") String districtName) {
         return ResponseEntity.ok(availableMedicineService.findAllAvailableMedicinesByDistrictName(districtName));

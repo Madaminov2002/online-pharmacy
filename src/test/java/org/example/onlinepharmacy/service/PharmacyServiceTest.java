@@ -1,8 +1,8 @@
 package org.example.onlinepharmacy.service;
 
 import java.util.Optional;
-import org.example.onlinepharmacy.advice.exception.AdminNotFoundException;
-import org.example.onlinepharmacy.advice.exception.DistrictNotFoundException;
+import org.example.onlinepharmacy.exception.AdminNotFoundException;
+import org.example.onlinepharmacy.exception.DistrictNotFoundException;
 import org.example.onlinepharmacy.domain.District;
 import org.example.onlinepharmacy.dto.PharmacyDto;
 import org.example.onlinepharmacy.repo.DistrictRepository;

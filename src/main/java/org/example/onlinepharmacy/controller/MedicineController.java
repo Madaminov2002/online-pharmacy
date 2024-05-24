@@ -34,7 +34,7 @@ public class MedicineController {
         return ResponseEntity.ok(medicineService.save(medicineDto));
     }
 
-    @GetMapping("/showAllMedicines")
+    @GetMapping("/show_all/medicines")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Show all medicines", description = "Designed to show all medications only for ADMINS")
     public List<Medicine> showAllMedicines() {

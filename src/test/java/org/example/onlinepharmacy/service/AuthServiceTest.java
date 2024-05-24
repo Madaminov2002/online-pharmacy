@@ -2,10 +2,10 @@ package org.example.onlinepharmacy.service;
 
 import java.util.Optional;
 import org.example.onlinepharmacy.updatedto.UserUpdateDto;
-import org.example.onlinepharmacy.advice.exception.EmailAlreadyExistsException;
-import org.example.onlinepharmacy.advice.exception.EmailNotFoundException;
-import org.example.onlinepharmacy.advice.exception.PasswordIncorrectException;
-import org.example.onlinepharmacy.advice.exception.UserNotFoundException;
+import org.example.onlinepharmacy.exception.EmailAlreadyExistsException;
+import org.example.onlinepharmacy.exception.EmailNotFoundException;
+import org.example.onlinepharmacy.exception.PasswordIncorrectException;
+import org.example.onlinepharmacy.exception.UserNotFoundException;
 import org.example.onlinepharmacy.domain.User;
 import org.example.onlinepharmacy.dto.LoginDto;
 import org.example.onlinepharmacy.dto.SignupDto;

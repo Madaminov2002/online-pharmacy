@@ -1,4 +1,4 @@
-package org.example.onlinepharmacy.advice.exception;
+package org.example.onlinepharmacy.exception;
 
 public class UserNotEnableForChangingPasswordException extends RuntimeException {
     public UserNotEnableForChangingPasswordException(String email) {

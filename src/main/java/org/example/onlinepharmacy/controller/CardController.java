@@ -29,7 +29,7 @@ public class CardController {
         return ResponseEntity.ok(cardService.save(cardDto));
     }
 
-    @GetMapping("/showCard")
+    @GetMapping("/show_card")
     @Operation(summary = "Show Cards", description = "It is designed to showing cards")
     public ResponseEntity<Card> showCard() {
         return ResponseEntity.ok(cardService.showCard());

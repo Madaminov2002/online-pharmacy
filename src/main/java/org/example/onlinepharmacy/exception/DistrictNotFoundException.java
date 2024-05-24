@@ -1,4 +1,4 @@
-package org.example.onlinepharmacy.advice.exception;
+package org.example.onlinepharmacy.exception;
 
 public class DistrictNotFoundException extends RuntimeException {
     public DistrictNotFoundException(String param) {

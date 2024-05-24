@@ -36,9 +36,8 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/auth/login",
             "/auth/signup",
-            "/auth/emailForForgotPassword",
-            "/auth/checkForgotPassword",
-            "/auth/changing-password"
+            "/auth/check_ForgotPassword",
+            "/auth/change-password"
     };
 
 
