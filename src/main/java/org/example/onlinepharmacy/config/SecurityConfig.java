@@ -37,7 +37,8 @@ public class SecurityConfig {
             "/auth/login",
             "/auth/signup",
             "/auth/check_ForgotPassword",
-            "/auth/change-password"
+            "/auth/change-password",
+            "/ws/**"
     };
 
 

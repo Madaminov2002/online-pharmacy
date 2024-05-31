@@ -29,8 +29,22 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/changelogMaster.xml
     enabled: true
+  websocket:
+    endpoint:
+      chat: /ws
+    allowed-origins: "*"
+  messaging:
+    broker:
+      application-destination-prefix: /app
+      simple:
+        enabled: true
+        prefix: /topic
+    destination:
+      prefixes: /queue, /user/queue
+
 server:
   port: 8081
+
 secret:
   key: ApeVFjUOyTmk7XYwgcYwIEsix1mALAsQhftYQqWHE8P6kcnqbZv0Uxj9HduKEvjXzz0sVYCG0ZjSBtmxadtAiQ==
 
@@ -38,3 +52,4 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger
+
