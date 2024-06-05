@@ -50,13 +50,13 @@ public class AvailableMedicineService {
     }
 
     public AvailableMedicines save(final AvailableMedicineDto dto) {
-        if (checkAdminForError(dto.getPharmacyId())) {
+        if (checkAdminToError(dto.getPharmacyId())) {
             throw new PharmacyIsNotYoursException();
         }
         return availableMedicinesRepository.save(dtoToEntity(dto));
     }
 
-    private Boolean checkAdminForError(Long pharmacyId) {
+    private Boolean checkAdminToError(Long pharmacyId) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email);
         Optional<Pharmacy> pharmacy = pharmacyRepository.checkPharmacy(pharmacyId, user.getId());
@@ -110,6 +110,7 @@ public class AvailableMedicineService {
         if (availableMedicinesForSearching.isPresent()) {
             return availableMedicinesForSearching.get();
         }
+
         var availableMedicinesByMedicineId = availableMedicinesRepository.getAvailableMedicinesByMedicineId(medicine.get().getId());
 
         if (availableMedicinesByMedicineId.isPresent()) {

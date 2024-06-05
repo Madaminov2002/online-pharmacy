@@ -45,7 +45,13 @@ public class AuthService {
     private final JavaMailSender mailSender;
     private final ForgotPasswordRepository forgotPasswordRepository;
 
-    public User getUserEntity(SignupDto signupDto) {
+    /**
+     * Default role User for everyone
+     * Only SUPER_ADMIN adds  simple admins
+     * @param signupDto
+     * @return User entity
+     */
+    public User dtoToEntity(SignupDto signupDto) {
         return User.builder()
                 .username(signupDto.getUsername())
                 .email(signupDto.getEmail())
@@ -60,7 +66,7 @@ public class AuthService {
             throw new EmailAlreadyExistsException(signupDto.getEmail());
         }
 
-        User user = getUserEntity(signupDto);
+        User user = dtoToEntity(signupDto);
 
         User savedUser = userRepository.save(user);
 
