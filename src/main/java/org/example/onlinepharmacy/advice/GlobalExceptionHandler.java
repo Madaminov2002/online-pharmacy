@@ -1,8 +1,10 @@
 package org.example.onlinepharmacy.advice;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.onlinepharmacy.dto.ErrorResponseDto;
 import org.example.onlinepharmacy.exception.AdminNotFoundException;
 import org.example.onlinepharmacy.exception.AvailableMedicineNotFoundException;
+import org.example.onlinepharmacy.exception.BasketNotFoundException;
 import org.example.onlinepharmacy.exception.DistrictNotFoundException;
 import org.example.onlinepharmacy.exception.EmailAlreadyExistsException;
 import org.example.onlinepharmacy.exception.EmailNotFoundException;
@@ -13,7 +15,6 @@ import org.example.onlinepharmacy.exception.PasswordIncorrectException;
 import org.example.onlinepharmacy.exception.PharmacyIsNotYoursException;
 import org.example.onlinepharmacy.exception.UserNotEnableForChangingPasswordException;
 import org.example.onlinepharmacy.exception.UserNotFoundException;
-import org.example.onlinepharmacy.dto.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -145,5 +146,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IsNotEnoughMoneyException.class)
     public ResponseEntity<String> isNotEnough(IsNotEnoughMoneyException exception) {
         return ResponseEntity.ok(exception.getMessage());
+    }
+
+    @ExceptionHandler(BasketNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> basketNotFound(BasketNotFoundException exception) {
+        return ResponseEntity.ok(
+                ErrorResponseDto.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.NOT_FOUND)
+                        .code(HttpServletResponse.SC_NOT_FOUND)
+                        .build()
+        );
     }
 }
